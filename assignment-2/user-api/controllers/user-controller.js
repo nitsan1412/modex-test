@@ -29,7 +29,6 @@ exports.createUser = async (req, res) => {
 };
 // getUser
 exports.getUser = async (req, res) => {
-    console.log(req.params);
     const { id } = req.params;
     try {
       const user = await User.findOne({ _id: id });
@@ -45,8 +44,6 @@ exports.getUser = async (req, res) => {
   // updateUser
 exports.updateUser = async (req, res) => {
     const { id } = req.params;
-    console.log(id);
-
     const { name, email } = req.body;
       if (!name && !email) {
       return res.status(400).json({ message: 'Please provide a name or an email' });

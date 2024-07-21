@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const dbURI = process.env.LINK_TO_ATLAS;
-console.log(dbURI);
 mongoose
   .connect(dbURI, {
     useNewUrlParser: true,
