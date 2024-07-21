@@ -1,34 +1,49 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Form, Button } from 'react-bootstrap';
+import React, { useState } from "react";
+import axios from "axios";
+import { Form, Button } from "react-bootstrap";
 
 const UserForm = ({ onSubmit, currentUser }) => {
-  const [name, setName] = useState(currentUser?.name || '');
-  const [email, setEmail] = useState(currentUser?.email || '');
+  const [name, setName] = useState(currentUser?.name || "");
+  const [email, setEmail] = useState(currentUser?.email || "");
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-  
+
     const data = { name, email };
-  
+
     try {
       if (currentUser?._id) {
         // Update user
-        await axios.put(`http://localhost:3000/api/users/${currentUser._id}`, data);
+        await axios.put(
+          `http://localhost:3000/api/users/${currentUser._id}`,
+          data
+        );
       } else {
         // Create user
-        await axios.post('http://localhost:3000/api/users', data);
+        await axios.post("http://localhost:3000/api/users", data);
       }
-      onSubmit(); 
+      onSubmit();
     } catch (err) {
       setError(err.message);
     }
   };
-  
+
+  const handleDelete = async () => {
+    try {
+        // delete user
+        await axios.delete(
+          `http://localhost:3000/api/users/${currentUser._id}`
+        );
+      onSubmit();
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form style={{ width: "18rem" }} onSubmit={handleSubmit}>
       <Form.Group className="mb-3">
         <Form.Label>Name:</Form.Label>
         <Form.Control
@@ -48,11 +63,18 @@ const UserForm = ({ onSubmit, currentUser }) => {
         />
       </Form.Group>
       <Button variant="primary" type="submit">
-        {currentUser?._id ? 'Update' : 'Create'}
+        {currentUser?._id ? "Update" : "Create"}
       </Button>
+      {currentUser?._id ? (
+        <Button variant="primary"  style={{marginLeft:"50px"}} type="submit" onClick={()=>{handleDelete()}}>Delete
+        </Button>
+      ) : (
+        ""
+      )}
+
       {error && <p className="text-danger">Error: {error}</p>}
     </Form>
   );
-  };
-  
-  export default UserForm;
+};
+
+export default UserForm;

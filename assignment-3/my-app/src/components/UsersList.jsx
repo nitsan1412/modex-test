@@ -38,7 +38,7 @@ const UsersList = ({onUserSelect}) => {
       {!isLoading && users.length > 0 && (
         <Row xs={1} md={3} className="g-4">
           {users.map((user) => (
-            <Col key={user._id}>
+            <Col key={user._id} style={{width:"fit-content"}}>
               <User user={user} onUserSelect = {onUserSelect}/>
             </Col>
           ))}

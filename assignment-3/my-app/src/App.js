@@ -23,7 +23,7 @@ function App() {
           </Button>
       </Container>
 
-      <Container className="mt-4">
+      <Container className="d-flex justify-content-evenly mt-3">
         {contentShown === "userList" ? (
           <UsersList onUserSelect={handleUserSelect} />
         ) : contentShown === "newUserForm" ? (
