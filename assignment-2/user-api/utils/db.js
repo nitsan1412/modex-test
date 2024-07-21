@@ -19,7 +19,6 @@ mongoose
 
 const db = mongoose.connection;
 
-// Event listeners for the MongoDB connection
 db.on("connected", () => {
   console.log(`Connected to MongoDB`);
 });
@@ -32,7 +31,6 @@ db.on("disconnected", () => {
   console.log("MongoDB disconnected");
 });
 
-// Gracefully handle connection termination
 process.on("SIGINT", () => {
   db.close(() => {
     console.log("MongoDB connection closed due to app termination");

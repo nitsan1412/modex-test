@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Container, Button } from "react-bootstrap";
+import UsersList from "./components/UsersList";
+import UserForm from "./components/UserForm";
 
 function App() {
+  const [selectedUser, setSelectedUser] = useState(null); //user details
+  const [contentShown, setContentShown] = useState("userList"); //userList || userDetails || newUserForm
+
+  const handleUserSelect = (user) => {
+    setSelectedUser(user);
+    setContentShown("userDetails");
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Container className="d-flex justify-content-evenly mt-3">
+          <Button variant={contentShown === "userList" ?"info": "outline-info"} onClick={() => setContentShown("userList")}>
+            Users List
+          </Button>
+          <Button variant={contentShown === "newUserForm" ?"info" : "outline-info"} onClick={() => setContentShown("newUserForm")}>
+            Create User
+          </Button>
+      </Container>
+
+      <Container className="mt-4">
+        {contentShown === "userList" ? (
+          <UsersList onUserSelect={handleUserSelect} />
+        ) : contentShown === "newUserForm" ? (
+          <UserForm onSubmit={() => setContentShown("userList")} currentUser={null} />
+        ) : (
+          <UserForm
+            currentUser={selectedUser}
+            onSubmit={() => setContentShown("userList")}
+          />
+        )}
+      </Container>
     </div>
   );
 }
